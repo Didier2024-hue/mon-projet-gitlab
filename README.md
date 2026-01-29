@@ -1,4 +1,4 @@
-# 🚀 GitLab CI/CD Pipeline — DevOps Exam Project
+# 🚀 GitLab - CI/CD Pipeline 
 
 > 🔧 End-to-end reconstruction of a **GitLab CI/CD pipeline** with modular configuration, conditional execution rules, Docker image lifecycle management, and Git tag–based versioning.
 
