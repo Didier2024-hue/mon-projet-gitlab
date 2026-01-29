@@ -25,24 +25,25 @@ The objective was to **design, restructure, and validate a complete GitLab CI/CD
 order/
 ├── .gitlab-ci.yml
 ├── configs/
-│ ├── extends.yml
-│ ├── transform.yml
-│ ├── load.yml
-│ ├── test.yml
-│ ├── build.yml
-│ ├── run.yml
-│ └── push.yml
+│   ├── extends.yml
+│   ├── transform.yml
+│   ├── load.yml
+│   ├── test.yml
+│   ├── build.yml
+│   ├── run.yml
+│   └── push.yml
 ├── exec/
-│ ├── transform/
-│ │ ├── main.py
-│ │ └── requirements.txt
-│ └── load/
-│ ├── main.py
-│ └── requirements.txt
+│   ├── transform/
+│   │   ├── main.py
+│   │   └── requirements.txt
+│   └── load/
+│       ├── main.py
+│       └── requirements.txt
 ├── test/
-│ ├── transform/
-│ └── load/
+│   ├── transform/
+│   └── load/
 └── pictures/
+
 
 yaml
 Copier le code
