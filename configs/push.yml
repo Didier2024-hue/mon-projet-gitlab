@@ -1,0 +1,75 @@
+# =====================================================================
+# PUSH JOBS (push images using commit SHA)
+# =====================================================================
+
+push_transform:
+  stage: push
+  extends: .default_job
+
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker push $CI_REGISTRY_IMAGE/order-transform:$CI_COMMIT_SHORT_SHA
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" &&
+           $CI_COMMIT_REF_NAME =~ /^docker_/'
+      when: on_success
+    - when: never
+
+
+
+push_load:
+  stage: push
+  extends: .default_job
+
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker push $CI_REGISTRY_IMAGE/order-load:$CI_COMMIT_SHORT_SHA
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" &&
+           $CI_COMMIT_REF_NAME =~ /^docker_/'
+      when: on_success
+    - when: never
+
+
+
+# =====================================================================
+# TAG RELEASE JOBS (push version-tagged images)
+# =====================================================================
+
+push_transform_tag:
+  stage: push
+  extends: .default_job
+
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker tag $CI_REGISTRY_IMAGE/order-transform:$CI_COMMIT_SHORT_SHA \
+                 $CI_REGISTRY_IMAGE/order-transform:$CI_COMMIT_TAG
+    - docker push $CI_REGISTRY_IMAGE/order-transform:$CI_COMMIT_TAG
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" &&
+           $CI_COMMIT_REF_NAME =~ /^docker_/ &&
+           $CI_COMMIT_TAG'
+      when: on_success
+    - when: never
+
+
+
+push_load_tag:
+  stage: push
+  extends: .default_job
+
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker tag $CI_REGISTRY_IMAGE/order-load:$CI_COMMIT_SHORT_SHA \
+                 $CI_REGISTRY_IMAGE/order-load:$CI_COMMIT_TAG
+    - docker push $CI_REGISTRY_IMAGE/order-load:$CI_COMMIT_TAG
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" &&
+           $CI_COMMIT_REF_NAME =~ /^docker_/ &&
+           $CI_COMMIT_TAG'
+      when: on_success
+    - when: never

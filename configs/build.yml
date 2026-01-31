@@ -1,0 +1,31 @@
+build_transform:
+  stage: build
+  extends: .default_job
+
+  script:
+    - echo "Building order-transform image"
+    - docker build -t $CI_REGISTRY_IMAGE/order-transform:$CI_COMMIT_SHORT_SHA ./exec/transform/
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" &&
+           $CI_COMMIT_REF_NAME =~ /^docker_/ &&
+           $CI_COMMIT_TAG'
+      when: on_success
+    - when: never
+
+
+build_load:
+  stage: build
+  extends: .default_job
+
+  script:
+    - echo "Building order-load image"
+    - docker build -t $CI_REGISTRY_IMAGE/order-load:$CI_COMMIT_SHORT_SHA ./exec/load/
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" &&
+           $CI_COMMIT_REF_NAME =~ /^docker_/ &&
+           $CI_COMMIT_TAG'
+      when: on_success
+    - when: never
+

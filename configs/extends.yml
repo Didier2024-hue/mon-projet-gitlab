@@ -1,0 +1,11 @@
+.default_job:
+  tags:
+    - shell
+
+  before_script:
+    - echo "Setting environment variables"
+    - export DATA_DIR="$DATA_DIR"
+    - export DATABASE_USER="$DATABASE_USER"
+    - export DATABASE="$DATABASE"
+    - export LOAD_DIR="$LOAD_DIR"
+

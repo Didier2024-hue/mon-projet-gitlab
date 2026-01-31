@@ -1,0 +1,10 @@
+test_transform:
+  stage: test
+  tags:
+    - kubernetes
+  script:
+    - echo "Installing python dependencies"
+    - pip install -r test/transform/requirements.txt
+    - echo "Executing tests"
+    - python3 -m pytest test/transform
+

@@ -1,0 +1,15 @@
+exec_load:
+  stage: run
+  tags:
+    - kubernetes
+  artifacts:
+    paths:
+      - $LOAD_DIR/results.csv
+  script:
+    - echo "Installing packages to build Psycopg2"
+    - apt-get update -y && apt-get install -y libpq-dev gcc
+    - echo "Installing python dependencies"
+    - pip install -r exec/load/requirements.txt
+    - echo "Executing python script"
+    - python3 exec/load/main.py
+

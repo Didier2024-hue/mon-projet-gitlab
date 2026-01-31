@@ -1,0 +1,13 @@
+exec_transform:
+  stage: run
+  tags:
+    - kubernetes
+  artifacts:
+    paths:
+      - $DATA_DIR/to_ingest/silver/*
+  script:
+    - echo "Installing python dependencies"
+    - pip install -r exec/transform/requirements.txt
+    - echo "Executing python script"
+    - python3 exec/transform/main.py
+

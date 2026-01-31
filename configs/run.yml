@@ -1,0 +1,36 @@
+run_transform:
+  stage: run
+  extends: .default_job
+  needs: ["build_transform"]
+
+  script:
+    - echo "Running transform job"
+    - python3 exec/transform/main.py
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" &&
+           $CI_COMMIT_REF_NAME =~ /^docker_/ &&
+           $CI_COMMIT_TAG'
+      when: on_success
+      allow_failure: true
+    - when: never
+
+
+
+run_load:
+  stage: run
+  extends: .default_job
+  needs: ["build_load", "run_transform"]
+
+  script:
+    - echo "Running load job"
+    - python3 exec/load/main.py
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" &&
+           $CI_COMMIT_REF_NAME =~ /^docker_/ &&
+           $CI_COMMIT_TAG'
+      when: on_success
+      allow_failure: true
+    - when: never
+
